@@ -26,15 +26,19 @@ function resolveDocumentUrl(value){
   const raw = String(value || '').trim()
   if(!raw) return ''
   if(raw.startsWith('http://') || raw.startsWith('https://')) return raw
-  if(raw.startsWith('/uploads/')) return `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'}`.replace(/\/api\/?$/, '') + raw
+  const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
+  const apiOrigin = apiBase.startsWith('http')
+    ? apiBase.replace(/\/api\/?$/, '')
+    : window.location.origin
+
+  if(raw.startsWith('/uploads/')) return `${apiOrigin}${raw}`
 
   const normalized = raw.replace(/\\/g, '/')
   const marker = '/uploads/'
   const markerIndex = normalized.toLowerCase().indexOf(marker)
   if(markerIndex >= 0){
     const suffix = normalized.slice(markerIndex + marker.length)
-    const base = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'}`.replace(/\/api\/?$/, '')
-    return `${base}/uploads/${suffix}`
+    return `${apiOrigin}/uploads/${suffix}`
   }
 
   return ''

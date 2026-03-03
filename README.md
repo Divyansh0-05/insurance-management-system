@@ -21,7 +21,7 @@ Full-stack insurance management application with role-based flows for users and 
 - Admin policy and user management
 
 ## Prerequisites
-- Node.js 18+
+- Node.js 20.19+ (or newer)
 - npm
 - MongoDB Atlas (or local MongoDB)
 
@@ -34,11 +34,15 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secure_jwt_secret
 ```
 
+Use a long random `JWT_SECRET` in production and rotate credentials if they were ever exposed.
+
 Create `insurance-frontend/.env`:
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
 ```
+
+For production, set `VITE_API_BASE_URL` to your deployed backend API URL.
 
 ## Installation
 Install backend dependencies:
